@@ -22,6 +22,9 @@ def match_timestamps_fastest_version(timestamps1: np.ndarray, timestamps2: np.nd
     for t1_point in timestamps1:
 
         while t2_point < len(timestamps2):
+            if t2_point == len(timestamps2) - 1:
+                matching.append(t2_point)
+                break
             if np.abs(t1_point - timestamps2[t2_point]) <= np.abs(t1_point - timestamps2[t2_point + 1]):
                 matching.append(t2_point)
                 break
