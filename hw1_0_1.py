@@ -2,6 +2,7 @@
 
 import time
 import numpy as np
+from tqdm import tqdm
 
 
 def match_timestamps_fastest_version(timestamps1: np.ndarray, timestamps2: np.ndarray) -> np.ndarray:
@@ -129,25 +130,35 @@ def main():
     Optimize the solution to work with ~2-3 hours of data.
     Good luck!
     """
-    # generate timestamps for the first camera
-    timestamps1 = make_timestamps(
-        30, time.time() - 100, time.time() + 3600 * 2)
-    # generate timestamps for the second camera
-    timestamps2 = make_timestamps(
-        60, time.time() + 200, time.time() + 3600 * 2.5)
     numb_iter = 100
     time_fast = 0
     time_binary = 0
-    for iter in range(numb_iter):
+
+    for iter in tqdm(range(numb_iter)):
+        # generate timestamps for the first camera
+        timestamps1 = make_timestamps(
+            30, time.time() - 100, time.time() + 3600 * 2)
+        # generate timestamps for the second camera
+        timestamps2 = make_timestamps(
+            60, time.time() + 200, time.time() + 3600 * 2.5)
+
         start = time.time()
         matching = match_timestamps_fastest_version(timestamps1, timestamps2)
         time_fast += time.time() - start
 
+    print('average time of fastest approach:', time_fast / numb_iter)
+
+    for iter in tqdm(range(numb_iter)):
+        # generate timestamps for the first camera
+        timestamps1 = make_timestamps(
+            30, time.time() - 100, time.time() + 3600 * 2)
+        # generate timestamps for the second camera
+        timestamps2 = make_timestamps(
+            60, time.time() + 200, time.time() + 3600 * 2.5)
+
         start = time.time()
         matching = match_timestamps_binary_search(timestamps1, timestamps2)
         time_binary += time.time() - start
-
-    print('average time of fastest approach:', time_fast / numb_iter)
 
     print('average time of binary search approach:', time_binary / numb_iter)
 

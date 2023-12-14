@@ -1,7 +1,9 @@
-FROM python:3.8-slim
+FROM python:3.10-slim
 WORKDIR /app
 COPY . /app
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir numpy
 RUN pip install --no-cache-dir numba
-CMD ["python3", "hw1_o_1.py"]
+RUN pip install --no-cache-dir tqdm
+
+CMD ["python3", "hw1_0_1.py"]
